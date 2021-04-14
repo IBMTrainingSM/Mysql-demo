@@ -3,22 +3,33 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
  table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
         width: 100%;
       }
-      
+     
       td, th {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
       }
-form
-{
-    align: "center";
-}
+      h3{
+      text-align:center;
+      }
+form {
+    width: 200px;
+    margin: 0 auto;
+     }
+    .container{
+    text-align:center;
+   
+    }
 </style>
 <script type="text/javascript">
 	function saveUser() {
@@ -59,6 +70,10 @@ form
 		.then(function(users){
 			console.log(users);
 			const table = document.getElementById('users');
+			const rows=table.children.length;
+			for(let count=0;count<rows;count++){
+				table.children[0].remove();
+			}
 			for(let index=0; index< users.length;index++){
 				console.log(users[index]);
 				const currentUser = users[index];
@@ -67,14 +82,29 @@ form
 				nameColumn.append(currentUser.name);
 				row.appendChild(nameColumn);
 				table.appendChild(row);
+				const phoneColumn = document.createElement('td');
+				phoneColumn.append(currentUser.phone);
+				row.appendChild(phoneColumn);
+				table.appendChild(row);
+				const dobColumn = document.createElement('td');
+				dobColumn.append(currentUser.dob);
+				row.appendChild(dobColumn);
+				table.appendChild(row);
+				const mailColumn = document.createElement('td');
+				mailColumn.append(currentUser.mail);
+				row.appendChild(mailColumn);
+				table.appendChild(row);
+				
 			}
 		})
+	
 	}
 </script>
 </head>
 <body>
-	<h3>User Details</h3>
+
 	<div class="jumbotron">
+		<h3>User Form</h3>
 	<form id='userform'>
 		<input id='username' placeholder="Name" required> <br>
 		<input type='tel' placeholder='Phone Number' pattern="[0-9]{10}" required id='phone'><br>
@@ -82,13 +112,17 @@ form
 		<input type="date" placeholder='DOB' required id='dob'>
 		
 	</form>
-	<button onclick="saveUser()">Save</button>
 	<br>
-	<button onclick="getUsers()">Get Users</button>
+	<div class ="container">
+	<button class="btn-primary" onclick="saveUser()">Save</button><br><br>
+	<button class="btn-success" onclick="getUsers()">Get Users</button>
+	</div>
 	<table>
 		<thead>
 			<td>Name</td>
 			<td>Phone Number</td>
+			<td>Date</td>
+			<td>E-Mail</td>
 		</thead>
 		<tbody id='users'></tbody>
 	</table>
