@@ -1,11 +1,14 @@
 package com.example.mysqldemo.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 
@@ -15,14 +18,12 @@ public class User {
 	@GeneratedValue
 	private Integer id;
 	@NotNull
+	@NotBlank
 	private String name;
-	@Email
-	@NotNull
-	private String email;
-	@Min(1000000000)
-	@Max(99999999999L)
 	@NotNull
 	private long phone;
+	private String mail;
+	private Date dob;
 	public Integer getId() {
 		return id;
 	}
@@ -35,17 +36,24 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
+
 	public long getPhone() {
 		return phone;
 	}
 	public void setPhone(long phone) {
 		this.phone = phone;
+	}
+	public Date getDob() {
+		return dob;
+	}
+	public void setDob(Date dob) {
+		this.dob = dob;
+	}
+	public String getMail() {
+		return mail;
+	}
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 	

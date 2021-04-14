@@ -3,26 +3,95 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<style>
+ table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+form
+{
+    align: "center";
+}
+</style>
 <script type="text/javascript">
-	function sendData() {
-		fetch('/user', {
-			method:'POST',
-			headers: {
-			      'Content-Type': 'application/json'
-			    },
-			    body:JSON.stringify({
-			    	name: document.getElementById('username').value,
-			    	email: document.getElementById('email').value,
-			    	phone:document.getElementById('phone').value
-			    })
+	function saveUser() {
+		/* function success(response){
+			return response.json();
+			
+		} 
+		function errorHandler(error){
+			console.log(error);
+		} */
+		console.log('2');
+		const userform = document.getElementById('userform');
+		
+		if(!userform.checkValidity()){
+			alert('form is invalid');
+			return;
+		}
+		const promise = fetch('/user', { 
+			method : 'POST',
+			headers : {
+				'Content-Type' : 'application/json'
+			},
+			body : JSON.stringify({
+				phone: document.getElementById('phone').value,
+				name : document.getElementById('username').value,
+				dob:document.getElementById('dob').value,
+				mail:document.getElementById('mail').value
+			})
 		});
+	
+	}
+	
+	function getUsers(){
+		const promise = fetch('/user');
+		promise.then(function(response){
+			return response.json();
+		})
+		.then(function(users){
+			console.log(users);
+			const table = document.getElementById('users');
+			for(let index=0; index< users.length;index++){
+				console.log(users[index]);
+				const currentUser = users[index];
+				const row = document.createElement('tr');
+				const nameColumn = document.createElement('td');
+				nameColumn.append(currentUser.name);
+				row.appendChild(nameColumn);
+				table.appendChild(row);
+			}
+		})
 	}
 </script>
 </head>
 <body>
-	<input id='username' placeholder="Name"><br>
-	<input id='email' placeholder="Email"><br>
-	<input id='phone' placeholder="PhoneNo"><br>
-	<button onclick="sendData()">Save</button>
+	<h3>User Details</h3>
+	<div class="jumbotron">
+	<form id='userform'>
+		<input id='username' placeholder="Name" required> <br>
+		<input type='tel' placeholder='Phone Number' pattern="[0-9]{10}" required id='phone'><br>
+			<input type='text' placeholder='Email'  required id='mail'><br>
+		<input type="date" placeholder='DOB' required id='dob'>
+		
+	</form>
+	<button onclick="saveUser()">Save</button>
+	<br>
+	<button onclick="getUsers()">Get Users</button>
+	<table>
+		<thead>
+			<td>Name</td>
+			<td>Phone Number</td>
+		</thead>
+		<tbody id='users'></tbody>
+	</table>
 </body>
+</div>
 </html>
